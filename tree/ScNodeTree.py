@@ -65,9 +65,9 @@ class ScNodeTree(NodeTree):
             self.links_hash = links_hash
         self.reset_nodes(False)
     
-    def execute_node(self):
+    def execute_node(self, node_name=None):
         self.reset_nodes(True)
-        n = self.nodes.get(str(self.node))
+        n = self.nodes.get(node_name or str(self.node))
         if (n):
             if (self.prop_clear_vars):
                 self.variables = {}
