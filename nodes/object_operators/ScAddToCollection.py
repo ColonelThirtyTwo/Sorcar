@@ -19,6 +19,7 @@ class ScAddToCollection(Node, ScObjectOperatorNode):
         return(
             super().error_condition()
             or self.inputs["Name"].default_value == ""
+            or self.inputs["Name"].default_value not in bpy.data.collections
         )
 
     def functionality(self):
