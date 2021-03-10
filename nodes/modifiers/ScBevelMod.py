@@ -77,7 +77,7 @@ class ScBevelMod(Node, ScModifierNode):
         bpy.context.object.modifiers[self.prop_mod_name].segments = int(self.inputs["Segments"].default_value)
         bpy.context.object.modifiers[self.prop_mod_name].profile = self.inputs["Profile"].default_value
         bpy.context.object.modifiers[self.prop_mod_name].material = int(self.inputs["Material"].default_value)
-        bpy.context.object.modifiers[self.prop_mod_name].use_only_vertices = self.inputs["Only Vertices"].default_value
+        bpy.context.object.modifiers[self.prop_mod_name].affect = 'VERTICES' if self.inputs["Only Vertices"].default_value else 'EDGES'
         bpy.context.object.modifiers[self.prop_mod_name].use_clamp_overlap = self.inputs["Clamp Overlap"].default_value
         bpy.context.object.modifiers[self.prop_mod_name].loop_slide = self.inputs["Loop Slide"].default_value
         bpy.context.object.modifiers[self.prop_mod_name].mark_seam = self.inputs["Mark Seams"].default_value
