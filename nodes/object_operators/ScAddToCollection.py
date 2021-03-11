@@ -23,4 +23,7 @@ class ScAddToCollection(Node, ScObjectOperatorNode):
         )
 
     def functionality(self):
-        bpy.data.collections[self.inputs["Name"].default_value].objects.link(self.inputs["Object"].default_value)
+        collection = bpy.data.collections[self.inputs["Name"].default_value]
+        obj = self.inputs["Object"].default_value
+        if obj.name not in collection.objects:
+            collection.objects.link(obj)
