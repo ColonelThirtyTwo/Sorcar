@@ -13,7 +13,6 @@ class ScImportSvg(Node, ScNode):
     prop_collections: StringProperty(default="[]")
     in_name: StringProperty(default="Object", update=ScNode.update_value)
     in_file: StringProperty(subtype='FILE_PATH', update=ScNode.update_value)
-    out_curve: PointerProperty(type=bpy.types.Object)
 
     def init(self, context):
         self.node_executable = True
@@ -40,16 +39,13 @@ class ScImportSvg(Node, ScNode):
         out = {}
         collection = [c for c in bpy.data.collections if c not in eval(self.prop_collections)][0]
         bpy.context.view_layer.objects.active = collection.objects[0]
-        self.out_curve = bpy.context.active_object
-        self.id_data.register_object(self.out_curve)
-        self.out_curve.select_set(True)
-        self.out_curve.name = self.inputs["Name"].default_value
-        if (self.out_curve.data):
-            self.out_curve.data.name = self.out_curve.name
+        out_curve = bpy.context.active_object
+        self.id_data.register_object(out_curve)
+        out_curve.select_set(True)
+        out_curve.name = self.inputs["Name"].default_value
+        if (out_curve.data):
+            out_curve.data.name = out_curve.name
         bpy.ops.object.move_to_collection(collection_index=0)
         bpy.data.collections.remove(collection)
-        out["Curve"] = self.out_curve
+        out["Curve"] = out_curve
         return out
-    
-    def free(self):
-        self.id_data.unregister_object(self.out_curve)

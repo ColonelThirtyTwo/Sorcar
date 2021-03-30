@@ -55,4 +55,4 @@ class ScNodeGroup(ScNode, NodeCustomGroup):
         return True
     
     def free(self):
-        self.node_tree.unregister_all_objects()
+        self.node_tree.clean_generated_objects()

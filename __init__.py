@@ -157,9 +157,11 @@ def register():
         for k in kmi:
             k.active = True
             addon_keymaps.append((km, k))
-    
+
+    bpy.types.Object.sorcar_tree = bpy.props.PointerProperty(type=ScNodeTree, name="Sorcar Node Tree", options={'HIDDEN'})
+
     addon_updater_ops.register(bl_info)
-    
+
     print_log("REGISTERED", msg="{} operators, {} sockets, {} UI, {} keymaps & {} nodes ({} categories)".format(len(classes_ops), len(classes_sockets), len(classes_ui), len(addon_keymaps), total_nodes, len(classes_nodes)))
 
 def unregister():

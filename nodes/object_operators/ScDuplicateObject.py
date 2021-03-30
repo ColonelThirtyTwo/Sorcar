@@ -25,10 +25,7 @@ class ScDuplicateObject(Node, ScObjectOperatorNode):
     
     def post_execute(self):
         out = super().post_execute()
-        self.out_mesh = bpy.context.active_object
-        out["Duplicate Object"] = self.out_mesh
-        self.id_data.register_object(self.out_mesh)
+        out_mesh = bpy.context.active_object
+        out["Duplicate Object"] = out_mesh
+        self.id_data.register_object(out_mesh)
         return out
-    
-    def free(self):
-        self.id_data.unregister_object(self.out_mesh)

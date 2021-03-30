@@ -12,7 +12,6 @@ class ScText(Node, ScNode):
     in_name: StringProperty(default="Curve", update=ScNode.update_value)
     in_text: StringProperty(default="Text", update=ScNode.update_value)
     in_radius: FloatProperty(default=1.0, min=0.0, update=ScNode.update_value)
-    out_curve: PointerProperty(type=bpy.types.Object)
 
     def init(self, context):
         self.node_executable = True
@@ -40,12 +39,9 @@ class ScText(Node, ScNode):
         )
     
     def post_execute(self):
-        self.out_curve = bpy.context.active_object
-        self.out_curve.name = self.inputs["Name"].default_value
-        self.out_curve.data.name = self.out_curve.name
-        self.out_curve.data.body = self.inputs["Text"].default_value
-        self.id_data.register_object(self.out_curve)
-        return {"Curve": self.out_curve}
-    
-    def free(self):
-        self.id_data.unregister_object(self.out_curve)
+        out_curve = bpy.context.active_object
+        out_curve.name = self.inputs["Name"].default_value
+        out_curve.data.name = out_curve.name
+        out_curve.data.body = self.inputs["Text"].default_value
+        self.id_data.register_object(out_curve)
+        return {"Curve": out_curve}

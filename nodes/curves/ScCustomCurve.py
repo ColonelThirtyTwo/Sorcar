@@ -44,6 +44,5 @@ class ScCustomCurve(Node, ScNode):
         return out
     
     def free(self):
-        self.id_data.unregister_object(self.out_curve)
         if (self.inputs["Curve"].default_value):
             self.inputs["Curve"].default_value.hide_set(False)

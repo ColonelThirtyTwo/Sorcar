@@ -104,12 +104,3 @@ class ScScatter(Node, ScObjectOperatorNode):
         if (self.inputs['Hide Original'].default_value):
             self.inputs["Scatter Object"].default_value.hide_set(True)
         return out
-    
-    def free(self):
-        for object in self.prop_obj_array[1:-1].split(', '):
-            try:
-                obj = eval(object)
-            except:
-                print_log(self.id_data.name, self.name, "free", "Invalid object: " + object)
-                continue
-            self.id_data.unregister_object(obj)
