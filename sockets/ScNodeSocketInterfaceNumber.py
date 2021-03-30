@@ -4,6 +4,7 @@ from bpy.props import FloatProperty
 from bpy.types import NodeSocketInterface
 from ._base.interface_base import ScNodeSocketInterface
 
+
 class ScNodeSocketInterfaceNumber(NodeSocketInterface, ScNodeSocketInterface):
     bl_idname = "ScNodeSocketInterfaceNumber"
     bl_label = "Number"

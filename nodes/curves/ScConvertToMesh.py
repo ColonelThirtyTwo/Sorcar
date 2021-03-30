@@ -6,6 +6,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from ...helper import focus_on_object
 
+
 class ScConvertToMesh(Node, ScNode):
     bl_idname = "ScConvertToMesh"
     bl_label = "Convert to Mesh"
@@ -17,17 +18,14 @@ class ScConvertToMesh(Node, ScNode):
         super().init(context)
         self.inputs.new("ScNodeSocketCurve", "Curve")
         self.outputs.new("ScNodeSocketObject", "Object")
-    
+
     def pre_execute(self):
         focus_on_object(self.inputs["Curve"].default_value)
         self.prop_curve = self.inputs["Curve"].default_value.data
-    
+
     def functionality(self):
-        bpy.ops.object.convert(
-            target = "MESH",
-            keep_original = False
-        )
-    
+        bpy.ops.object.convert(target="MESH", keep_original=False)
+
     def post_execute(self):
         bpy.context.active_object.data.name = bpy.context.active_object.name
         bpy.data.curves.remove(self.prop_curve)

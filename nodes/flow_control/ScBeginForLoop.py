@@ -4,6 +4,7 @@ from bpy.props import BoolProperty, IntProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScBeginForLoop(Node, ScNode):
     bl_idname = "ScBeginForLoop"
     bl_label = "Begin For Loop"
@@ -12,7 +13,7 @@ class ScBeginForLoop(Node, ScNode):
     out_counter: IntProperty()
 
     def reset(self, execute):
-        if (execute):
+        if execute:
             self.prop_locked = False
         super().reset(execute)
 
@@ -22,9 +23,9 @@ class ScBeginForLoop(Node, ScNode):
         self.outputs.new("ScNodeSocketInfo", "End For Loop")
         self.outputs.new("ScNodeSocketUniversal", "Out")
         self.outputs.new("ScNodeSocketNumber", "Counter")
-    
+
     def execute(self, forced=False):
-        if (self.prop_locked):
+        if self.prop_locked:
             self.outputs["Counter"].default_value = self.out_counter
             self.set_color()
             return True
@@ -32,7 +33,7 @@ class ScBeginForLoop(Node, ScNode):
             self.prop_locked = True
             self.out_counter = 0
             return super().execute(forced)
-    
+
     def post_execute(self):
         out = {}
         out["Out"] = self.inputs["In"].default_value

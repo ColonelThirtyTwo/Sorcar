@@ -4,6 +4,7 @@ from bpy.props import FloatProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScClamp(Node, ScNode):
     bl_idname = "ScClamp"
     bl_label = "Clamp"
@@ -18,13 +19,14 @@ class ScClamp(Node, ScNode):
         self.inputs.new("ScNodeSocketNumber", "Min").init("in_min", True)
         self.inputs.new("ScNodeSocketNumber", "Max").init("in_max", True)
         self.outputs.new("ScNodeSocketNumber", "Value")
-    
+
     def error_condition(self):
-        return (
-            self.inputs["Max"].default_value < self.inputs["Min"].default_value
-        )
-    
+        return self.inputs["Max"].default_value < self.inputs["Min"].default_value
+
     def post_execute(self):
         out = {}
-        out["Value"] = max(min(self.inputs["Max"].default_value, self.inputs["X"].default_value), self.inputs["Min"].default_value)
+        out["Value"] = max(
+            min(self.inputs["Max"].default_value, self.inputs["X"].default_value),
+            self.inputs["Min"].default_value,
+        )
         return out

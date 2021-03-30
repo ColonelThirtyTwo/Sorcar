@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScEditOperatorNode
 
+
 class ScAddGrid(Node, ScEditOperatorNode):
     bl_idname = "ScAddGrid"
     bl_label = "Add Grid"
@@ -20,19 +21,25 @@ class ScAddGrid(Node, ScEditOperatorNode):
         self.inputs.new("ScNodeSocketNumber", "X Subdivisions").init("in_x", True)
         self.inputs.new("ScNodeSocketNumber", "Y Subdivisions").init("in_y", True)
         self.inputs.new("ScNodeSocketNumber", "Size").init("in_size", True)
-    
+
     def error_condition(self):
         return (
             super().error_condition()
-            or (self.inputs["X Subdivisions"].default_value < 2 or self.inputs["X Subdivisions"].default_value > 10000000)
-            or (self.inputs["Y Subdivisions"].default_value < 2 or self.inputs["Y Subdivisions"].default_value > 10000000)
+            or (
+                self.inputs["X Subdivisions"].default_value < 2
+                or self.inputs["X Subdivisions"].default_value > 10000000
+            )
+            or (
+                self.inputs["Y Subdivisions"].default_value < 2
+                or self.inputs["Y Subdivisions"].default_value > 10000000
+            )
             or self.inputs["Size"].default_value <= 0
         )
-    
+
     def functionality(self):
         bpy.ops.mesh.primitive_grid_add(
-            x_subdivisions = int(self.inputs["X Subdivisions"].default_value),
-            y_subdivisions = int(self.inputs["Y Subdivisions"].default_value),
-            size = self.inputs["Size"].default_value,
-            calc_uvs = self.inputs["Generate UVs"].default_value
+            x_subdivisions=int(self.inputs["X Subdivisions"].default_value),
+            y_subdivisions=int(self.inputs["Y Subdivisions"].default_value),
+            size=self.inputs["Size"].default_value,
+            calc_uvs=self.inputs["Generate UVs"].default_value,
         )

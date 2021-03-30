@@ -5,15 +5,20 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 
+
 class ScSetObjectVisible(Node, ScObjectOperatorNode):
     bl_idname = "ScSetObjectVisible"
     bl_label = "Set Object Visibility"
 
-    in_type: EnumProperty(items=[
-        ('VIEWPORT', 'Viewport', ''),
-        ('RENDER', 'Render', ''),
-        ('SELECT', 'Selection', ''),
-    ], default='VIEWPORT', update=ScNode.update_value)
+    in_type: EnumProperty(
+        items=[
+            ("VIEWPORT", "Viewport", ""),
+            ("RENDER", "Render", ""),
+            ("SELECT", "Selection", ""),
+        ],
+        default="VIEWPORT",
+        update=ScNode.update_value,
+    )
     in_set: BoolProperty(update=ScNode.update_value)
 
     def init(self, context):
@@ -22,9 +27,8 @@ class ScSetObjectVisible(Node, ScObjectOperatorNode):
         self.inputs.new("ScNodeSocketBool", "Is Visible").init("in_set", True)
 
     def error_condition(self):
-        return(
-            super().error_condition()
-            or (not self.inputs["Type"].default_value in ['VIEWPORT', 'RENDER', 'SELECT'])
+        return super().error_condition() or (
+            not self.inputs["Type"].default_value in ["VIEWPORT", "RENDER", "SELECT"]
         )
 
     def functionality(self):

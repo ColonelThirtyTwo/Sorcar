@@ -4,6 +4,7 @@ from bpy.props import BoolProperty, FloatProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScMapRange(Node, ScNode):
     bl_idname = "ScMapRange"
     bl_label = "Map Range"
@@ -24,12 +25,12 @@ class ScMapRange(Node, ScNode):
         self.inputs.new("ScNodeSocketNumber", "Out Max").init("in_max_out", True)
         self.inputs.new("ScNodeSocketBool", "Clamp").init("in_clamp")
         self.outputs.new("ScNodeSocketNumber", "Value")
-    
+
     def error_condition(self):
         return (
             self.inputs["Out Min"].default_value == self.inputs["Out Max"].default_value
         )
-    
+
     def post_execute(self):
         out = {}
         x = self.inputs["X"].default_value
@@ -37,7 +38,7 @@ class ScMapRange(Node, ScNode):
         x_max = self.inputs["In Max"].default_value
         y_min = self.inputs["Out Min"].default_value
         y_max = self.inputs["Out Max"].default_value
-        if (self.inputs["Clamp"].default_value):
+        if self.inputs["Clamp"].default_value:
             x = max(min(x, x_max), x_min)
-        out["Value"] = (((x-x_min) * (y_max-y_min)) / (x_max-x_min)) + y_min
+        out["Value"] = (((x - x_min) * (y_max - y_min)) / (x_max - x_min)) + y_min
         return out

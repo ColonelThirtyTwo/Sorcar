@@ -5,6 +5,7 @@ from bpy.props import FloatVectorProperty, FloatProperty, IntProperty, EnumPrope
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScHybridMultiFractal(Node, ScNode):
     bl_idname = "ScHybridMultiFractal"
     bl_label = "Hybrid Multi-Fractal"
@@ -15,7 +16,22 @@ class ScHybridMultiFractal(Node, ScNode):
     in_octaves: IntProperty(update=ScNode.update_value)
     in_offset: FloatProperty(update=ScNode.update_value)
     in_gain: FloatProperty(update=ScNode.update_value)
-    in_noise_basis: EnumProperty(items=[('BLENDER', 'Blender', ''), ('PERLIN_ORIGINAL', 'Perlin (Original)', ''), ('PERLIN_NEW', 'Perlin (New)', ''), ('VORONOI_F1', 'Voronoi (F1)', ''), ('VORONOI_F2', 'Voronoi (F2)', ''), ('VORONOI_F3', 'Voronoi (F3)', ''), ('VORONOI_F4', 'Voronoi (F4)', ''), ('VORONOI_F2F1', 'Voronoi (F2F1)', ''), ('VORONOI_CRACKLE', 'Voronoi (Crackle)', ''), ('CELLNOISE', 'Cellnoise', '')], default='PERLIN_ORIGINAL', update=ScNode.update_value)
+    in_noise_basis: EnumProperty(
+        items=[
+            ("BLENDER", "Blender", ""),
+            ("PERLIN_ORIGINAL", "Perlin (Original)", ""),
+            ("PERLIN_NEW", "Perlin (New)", ""),
+            ("VORONOI_F1", "Voronoi (F1)", ""),
+            ("VORONOI_F2", "Voronoi (F2)", ""),
+            ("VORONOI_F3", "Voronoi (F3)", ""),
+            ("VORONOI_F4", "Voronoi (F4)", ""),
+            ("VORONOI_F2F1", "Voronoi (F2F1)", ""),
+            ("VORONOI_CRACKLE", "Voronoi (Crackle)", ""),
+            ("CELLNOISE", "Cellnoise", ""),
+        ],
+        default="PERLIN_ORIGINAL",
+        update=ScNode.update_value,
+    )
 
     def init(self, context):
         super().init(context)
@@ -25,15 +41,28 @@ class ScHybridMultiFractal(Node, ScNode):
         self.inputs.new("ScNodeSocketNumber", "Octaves").init("in_octaves")
         self.inputs.new("ScNodeSocketNumber", "Offset").init("in_offset")
         self.inputs.new("ScNodeSocketNumber", "Gain").init("in_gain")
-        self.inputs.new("ScNodeSocketString", "Noise Basis").init("in_noise_basis", True)
-        self.outputs.new("ScNodeSocketNumber", "Value")
-    
-    def error_condition(self):
-        return (
-            super().error_condition()
-            or (not self.inputs["Noise Basis"].default_value in ['BLENDER', 'PERLIN_ORIGINAL', 'PERLIN_NEW', 'VORONOI_F1', 'VORONOI_F2', 'VORONOI_F3', 'VORONOI_F4', 'VORONOI_F2F1', 'VORONOI_CRACKLE', 'CELLNOISE'])
+        self.inputs.new("ScNodeSocketString", "Noise Basis").init(
+            "in_noise_basis", True
         )
-    
+        self.outputs.new("ScNodeSocketNumber", "Value")
+
+    def error_condition(self):
+        return super().error_condition() or (
+            not self.inputs["Noise Basis"].default_value
+            in [
+                "BLENDER",
+                "PERLIN_ORIGINAL",
+                "PERLIN_NEW",
+                "VORONOI_F1",
+                "VORONOI_F2",
+                "VORONOI_F3",
+                "VORONOI_F4",
+                "VORONOI_F2F1",
+                "VORONOI_CRACKLE",
+                "CELLNOISE",
+            ]
+        )
+
     def post_execute(self):
         out = {}
         out["Value"] = mathutils.noise.hybrid_multi_fractal(
@@ -43,6 +72,6 @@ class ScHybridMultiFractal(Node, ScNode):
             int(self.inputs["Octaves"].default_value),
             self.inputs["Offset"].default_value,
             self.inputs["Gain"].default_value,
-            noise_basis = self.inputs["Noise Basis"].default_value
+            noise_basis=self.inputs["Noise Basis"].default_value,
         )
         return out

@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 
+
 class ScRemoveFromAllCollections(Node, ScObjectOperatorNode):
     bl_idname = "ScRemoveFromAllCollections"
     bl_label = "Remove Object from All Collection"

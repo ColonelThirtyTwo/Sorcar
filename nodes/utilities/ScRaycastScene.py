@@ -5,10 +5,11 @@ from bpy.props import FloatVectorProperty, FloatProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScRaycastScene(Node, ScNode):
     bl_idname = "ScRaycastScene"
     bl_label = "Raycast (Scene)"
-    
+
     in_origin: FloatVectorProperty(update=ScNode.update_value)
     in_direction: FloatVectorProperty(update=ScNode.update_value)
     in_distance: FloatProperty(default=100.0, min=0.0, update=ScNode.update_value)
@@ -24,19 +25,17 @@ class ScRaycastScene(Node, ScNode):
         self.outputs.new("ScNodeSocketVector", "Normal")
         self.outputs.new("ScNodeSocketNumber", "Index")
         self.outputs.new("ScNodeSocketObject", "Object")
-    
+
     def error_condition(self):
-        return(
-            self.inputs["Distance"].default_value < 0.0
-        )
-    
+        return self.inputs["Distance"].default_value < 0.0
+
     def post_execute(self):
         out = {}
         ret = bpy.context.scene.ray_cast(
             bpy.context.view_layer,
             self.inputs["Origin"].default_value,
             self.inputs["Direction"].default_value,
-            distance = self.inputs["Distance"].default_value
+            distance=self.inputs["Distance"].default_value,
         )
         out["Result"] = ret[0]
         out["Location"] = ret[1]

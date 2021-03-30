@@ -5,6 +5,7 @@ from bpy.props import IntProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScPopElement(Node, ScNode):
     bl_idname = "ScPopElement"
     bl_label = "Pop Element"

@@ -4,6 +4,7 @@ from bpy.props import StringProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScAppendString(Node, ScNode):
     bl_idname = "ScAppendString"
     bl_label = "Append String"
@@ -16,7 +17,7 @@ class ScAppendString(Node, ScNode):
         self.inputs.new("ScNodeSocketString", "A").init("in_a", True)
         self.inputs.new("ScNodeSocketString", "B").init("in_b", True)
         self.outputs.new("ScNodeSocketString", "Value")
-    
+
     def post_execute(self):
         out = {}
         out["Value"] = self.inputs["A"].default_value + self.inputs["B"].default_value

@@ -6,6 +6,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from ...helper import focus_on_object
 
+
 class ScConvertToCurve(Node, ScNode):
     bl_idname = "ScConvertToCurve"
     bl_label = "Convert to Curve"
@@ -17,17 +18,14 @@ class ScConvertToCurve(Node, ScNode):
         super().init(context)
         self.inputs.new("ScNodeSocketObject", "Object")
         self.outputs.new("ScNodeSocketCurve", "Curve")
-    
+
     def pre_execute(self):
         focus_on_object(self.inputs["Object"].default_value)
         self.prop_mesh = self.inputs["Object"].default_value.data
-    
+
     def functionality(self):
-        bpy.ops.object.convert(
-            target = "CURVE",
-            keep_original = False
-        )
-    
+        bpy.ops.object.convert(target="CURVE", keep_original=False)
+
     def post_execute(self):
         bpy.context.active_object.data.name = bpy.context.active_object.name
         bpy.data.meshes.remove(self.prop_mesh)

@@ -25,7 +25,3 @@ class ScSingleVertex(Node, ScInputNode):
         obj.show_name = self.inputs["Show Name"].default_value
         bpy.context.collection.objects.link(obj)
         bpy.context.view_layer.objects.active = obj
-
-
-
-

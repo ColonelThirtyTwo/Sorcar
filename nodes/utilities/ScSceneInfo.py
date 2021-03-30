@@ -4,6 +4,7 @@ import time
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScSceneInfo(Node, ScNode):
     bl_idname = "ScSceneInfo"
     bl_label = "Scene Info"
@@ -20,7 +21,7 @@ class ScSceneInfo(Node, ScNode):
         self.outputs.new("ScNodeSocketArray", "All Objects")
         self.outputs.new("ScNodeSocketNumber", "Unit Scale")
         self.outputs.new("ScNodeSocketNumber", "System Time")
-    
+
     def post_execute(self):
         c = bpy.context
         s = c.scene

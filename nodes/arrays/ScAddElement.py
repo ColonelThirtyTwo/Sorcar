@@ -5,6 +5,7 @@ from bpy.props import IntProperty, BoolProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScAddElement(Node, ScNode):
     bl_idname = "ScAddElement"
     bl_label = "Add Element"
@@ -23,8 +24,11 @@ class ScAddElement(Node, ScNode):
     def post_execute(self):
         out = {}
         arr = eval(self.inputs["Array"].default_value)
-        if (self.inputs["Use Index"].default_value):
-            arr.insert(int(self.inputs["Index"].default_value), self.inputs["Element"].default_value)
+        if self.inputs["Use Index"].default_value:
+            arr.insert(
+                int(self.inputs["Index"].default_value),
+                self.inputs["Element"].default_value,
+            )
         else:
             arr.append(self.inputs["Element"].default_value)
         out["New Array"] = repr(arr)

@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 
+
 class ScRemoveFromCollection(Node, ScObjectOperatorNode):
     bl_idname = "ScRemoveFromCollection"
     bl_label = "Remove Object from Collection"
@@ -14,9 +15,9 @@ class ScRemoveFromCollection(Node, ScObjectOperatorNode):
     def init(self, context):
         super().init(context)
         self.inputs.new("ScNodeSocketString", "Name").init("in_name", True)
-    
+
     def error_condition(self):
-        return(
+        return (
             super().error_condition()
             or self.inputs["Name"].default_value == ""
             or self.inputs["Name"].default_value not in bpy.data.collections

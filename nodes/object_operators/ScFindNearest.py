@@ -8,14 +8,19 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 
+
 class ScFindNearest(Node, ScObjectOperatorNode):
     bl_idname = "ScFindNearest"
     bl_label = "Find Nearest"
-    
-    in_component: EnumProperty(items=[("VERTEX", "Vertex", ""), ("FACE", "Face", "")], default="FACE", update=ScNode.update_value)
+
+    in_component: EnumProperty(
+        items=[("VERTEX", "Vertex", ""), ("FACE", "Face", "")],
+        default="FACE",
+        update=ScNode.update_value,
+    )
     in_origin: FloatVectorProperty(update=ScNode.update_value)
     in_distance: FloatProperty(default=100.0, min=0.0, update=ScNode.update_value)
-    
+
     info = {}
 
     def init(self, context):
@@ -27,12 +32,9 @@ class ScFindNearest(Node, ScObjectOperatorNode):
         self.outputs.new("ScNodeSocketVector", "Normal")
         self.outputs.new("ScNodeSocketNumber", "Index")
         self.outputs.new("ScNodeSocketNumber", "Distance")
-    
+
     def error_condition(self):
-        return(
-            super().error_condition()
-            or self.inputs["Distance"].default_value < 0.0
-        )
+        return super().error_condition() or self.inputs["Distance"].default_value < 0.0
 
     def functionality(self):
         obj = self.inputs["Object"].default_value
@@ -40,9 +42,9 @@ class ScFindNearest(Node, ScObjectOperatorNode):
         origin = self.inputs["Origin"].default_value
         max_dist = self.inputs["Distance"].default_value
 
-        if comp == "VERTEX":            
+        if comp == "VERTEX":
             current_mode = bpy.context.object.mode
-            bpy.ops.object.mode_set(mode='EDIT')
+            bpy.ops.object.mode_set(mode="EDIT")
             bm = bmesh.from_edit_mesh(obj.data)
             set = bm.verts
             set.ensure_lookup_table()
@@ -55,11 +57,13 @@ class ScFindNearest(Node, ScObjectOperatorNode):
                     self.info["Location"] = Vector(item.co)
                     self.info["Normal"] = Vector(item.normal)
                     self.info["Index"] = item.index
-            
+
             bpy.ops.object.mode_set(mode=current_mode)
-                    
+
         elif comp == "FACE":
-            ret = self.inputs["Object"].default_value.closest_point_on_mesh(origin, distance=max_dist)
+            ret = self.inputs["Object"].default_value.closest_point_on_mesh(
+                origin, distance=max_dist
+            )
             self.info["Location"] = ret[1]
             self.info["Normal"] = ret[2]
             self.info["Index"] = ret[3]
@@ -72,9 +76,9 @@ class ScFindNearest(Node, ScObjectOperatorNode):
         out["Index"] = self.info["Index"]
         out["Distance"] = self.info["Distance"]
         return out
-    
+
     def measure_distance(self, first, second):
         locx = second[0] - first[0]
         locy = second[1] - first[1]
         locz = second[2] - first[2]
-        return sqrt((locx)**2 + (locy)**2 + (locz)**2)
+        return sqrt((locx) ** 2 + (locy) ** 2 + (locz) ** 2)

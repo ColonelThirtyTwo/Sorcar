@@ -4,6 +4,7 @@ from bpy.props import PointerProperty
 from bpy.types import NodeSocketInterface
 from ._base.interface_base import ScNodeSocketInterface
 
+
 class ScNodeSocketInterfaceObject(NodeSocketInterface, ScNodeSocketInterface):
     bl_idname = "ScNodeSocketInterfaceObject"
     bl_label = "Object"

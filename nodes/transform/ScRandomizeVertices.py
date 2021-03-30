@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScEditOperatorNode
 
+
 class ScRandomizeVertices(Node, ScEditOperatorNode):
     bl_idname = "ScRandomizeVertices"
     bl_label = "Randomize Vertices"
@@ -20,19 +21,28 @@ class ScRandomizeVertices(Node, ScEditOperatorNode):
         self.inputs.new("ScNodeSocketNumber", "Uniform").init("in_uniform")
         self.inputs.new("ScNodeSocketNumber", "Normal").init("in_normal")
         self.inputs.new("ScNodeSocketNumber", "Random Seed").init("in_seed", True)
-    
+
     def error_condition(self):
         return (
             super().error_condition()
-            or (self.inputs["Uniform"].default_value < 0 or self.inputs["Uniform"].default_value > 1)
-            or (self.inputs["Normal"].default_value < 0 or self.inputs["Normal"].default_value > 1)
-            or (int(self.inputs["Random Seed"].default_value) < 0 or int(self.inputs["Random Seed"].default_value) > 10000)
+            or (
+                self.inputs["Uniform"].default_value < 0
+                or self.inputs["Uniform"].default_value > 1
+            )
+            or (
+                self.inputs["Normal"].default_value < 0
+                or self.inputs["Normal"].default_value > 1
+            )
+            or (
+                int(self.inputs["Random Seed"].default_value) < 0
+                or int(self.inputs["Random Seed"].default_value) > 10000
+            )
         )
-    
+
     def functionality(self):
         bpy.ops.transform.vertex_random(
-            offset = self.inputs["Offset Amount"].default_value,
-            uniform = self.inputs["Uniform"].default_value,
-            normal = self.inputs["Normal"].default_value,
-            seed = int(self.inputs["Random Seed"].default_value)
+            offset=self.inputs["Offset Amount"].default_value,
+            uniform=self.inputs["Uniform"].default_value,
+            normal=self.inputs["Normal"].default_value,
+            seed=int(self.inputs["Random Seed"].default_value),
         )

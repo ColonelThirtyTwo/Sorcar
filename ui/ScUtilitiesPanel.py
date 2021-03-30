@@ -3,6 +3,7 @@ import bpy
 from bpy.types import Panel
 from ._base.panel_base import ScPanel
 
+
 class ScUtilitiesPanel(Panel, ScPanel):
     bl_label = "Utilities"
     bl_idname = "NODE_PT_sc_utilities"
@@ -13,4 +14,4 @@ class ScUtilitiesPanel(Panel, ScPanel):
         layout.operator("sorcar.execute_node")
         layout.operator("sorcar.clear_preview")
         layout.separator()
-        layout.operator("node.join", text="Frame (Comment)", icon='SEQ_STRIP_META')
+        layout.operator("node.join", text="Frame (Comment)", icon="SEQ_STRIP_META")

@@ -4,6 +4,7 @@ from bpy.props import FloatVectorProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScBreakVector(Node, ScNode):
     bl_idname = "ScBreakVector"
     bl_label = "Break Vector"
@@ -16,7 +17,7 @@ class ScBreakVector(Node, ScNode):
         self.outputs.new("ScNodeSocketNumber", "X")
         self.outputs.new("ScNodeSocketNumber", "Y")
         self.outputs.new("ScNodeSocketNumber", "Z")
-    
+
     def post_execute(self):
         out = {}
         out["X"] = self.inputs["Vector"].default_value[0]

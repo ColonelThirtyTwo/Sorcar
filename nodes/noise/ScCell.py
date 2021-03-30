@@ -5,6 +5,7 @@ from bpy.props import FloatVectorProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScCell(Node, ScNode):
     bl_idname = "ScCell"
     bl_label = "Cell"
@@ -15,7 +16,7 @@ class ScCell(Node, ScNode):
         super().init(context)
         self.inputs.new("ScNodeSocketVector", "Position").init("in_position", True)
         self.outputs.new("ScNodeSocketNumber", "Value")
-    
+
     def post_execute(self):
         out = {}
         out["Value"] = mathutils.noise.cell(self.inputs["Position"].default_value)

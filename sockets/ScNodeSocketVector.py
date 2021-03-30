@@ -5,6 +5,7 @@ from bpy.types import NodeSocket
 from ._base.socket_base import ScNodeSocket
 from ..nodes._base.node_base import ScNode
 
+
 class ScNodeSocketVector(NodeSocket, ScNodeSocket):
     bl_idname = "ScNodeSocketVector"
     bl_label = "Vector"
@@ -15,7 +16,13 @@ class ScNodeSocketVector(NodeSocket, ScNodeSocket):
     default_type: StringProperty(default="VECTOR")
 
     def get_label(self):
-        return str(round(self.default_value[0], 1)) + ", " + str(round(self.default_value[1], 1)) + ", " + str(round(self.default_value[2], 1))
-    
+        return (
+            str(round(self.default_value[0], 1))
+            + ", "
+            + str(round(self.default_value[1], 1))
+            + ", "
+            + str(round(self.default_value[2], 1))
+        )
+
     def draw_layout(self, context, layout, node, prop, text):
         layout.column().prop(node, prop, text=text)

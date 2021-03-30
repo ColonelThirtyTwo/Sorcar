@@ -4,6 +4,7 @@ from bpy.types import Node
 from mathutils import Vector
 from .._base.node_base import ScNode
 
+
 class ScEvaluateAs(Node, ScNode):
     bl_idname = "ScEvaluateAs"
     bl_label = "Evaluate As"
@@ -19,10 +20,10 @@ class ScEvaluateAs(Node, ScNode):
         self.outputs.new("ScNodeSocketObject", "As Object")
         self.outputs.new("ScNodeSocketString", "As String")
         self.outputs.new("ScNodeSocketVector", "As Vector")
-    
+
     def error_condition(self):
-        return (self.inputs["Element"].default_value == None)
-    
+        return self.inputs["Element"].default_value == None
+
     def post_execute(self):
         out = {}
         try:
@@ -37,7 +38,9 @@ class ScEvaluateAs(Node, ScNode):
             out["As Bool"] = False
         try:
             print("debug: Curve")
-            out["As Curve"] = bpy.data.objects.get(eval(self.inputs["Element"].default_value).name)
+            out["As Curve"] = bpy.data.objects.get(
+                eval(self.inputs["Element"].default_value).name
+            )
         except:
             out["As Curve"] = None
         try:
@@ -52,7 +55,9 @@ class ScEvaluateAs(Node, ScNode):
             out["As Int"] = 0
         try:
             print("debug: Object")
-            out["As Object"] = bpy.data.objects.get(eval(self.inputs["Element"].default_value).name)
+            out["As Object"] = bpy.data.objects.get(
+                eval(self.inputs["Element"].default_value).name
+            )
         except:
             out["As Object"] = None
         try:
@@ -62,7 +67,9 @@ class ScEvaluateAs(Node, ScNode):
             out["As String"] = ""
         try:
             print("debug: Vector")
-            out["As Vector"] = Vector(eval(self.inputs["Element"].default_value)).to_tuple()
+            out["As Vector"] = Vector(
+                eval(self.inputs["Element"].default_value)
+            ).to_tuple()
         except:
             out["As Vector"] = (0, 0, 0)
         return out

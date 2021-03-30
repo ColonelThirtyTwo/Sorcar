@@ -6,11 +6,13 @@ from .._base.node_base import ScNode
 from .._base.node_input import ScInputNode
 from ...helper import focus_on_object
 
+
 class ScReceiveFromSverchok(Node, ScInputNode):
     bl_idname = "ScReceiveFromSverchok"
     bl_label = "Receive from Sverchok"
 
-    prop_verts: StringProperty(default='''[[
+    prop_verts: StringProperty(
+        default="""[[
         [0.0, 1.0, -0.05000000074505806],
         [0.0, 1.0, 0.05000000074505806],
         [0.0980171412229538, 0.9951847195625305, -0.05000000074505806],
@@ -267,8 +269,10 @@ class ScReceiveFromSverchok(Node, ScInputNode):
         [-0.997647225856781, -0.04789118468761444, 0.04999999701976776],
         [-0.6836816072463989, 0.0, 0.04999998211860657],
         [-0.6836816072463989, 0.0, -0.04999999701976776]
-    ]]''')
-    prop_edges: StringProperty(default='''[[
+    ]]"""
+    )
+    prop_edges: StringProperty(
+        default="""[[
         [0, 2],
         [1, 3],
         [0, 1],
@@ -655,8 +659,10 @@ class ScReceiveFromSverchok(Node, ScInputNode):
         [200, 201],
         [248, 249],
         [218, 219]
-    ]]''')
-    prop_faces: StringProperty(default='''[[
+    ]]"""
+    )
+    prop_faces: StringProperty(
+        default="""[[
         [0, 1, 3, 2],
         [2, 3, 5, 4],
         [4, 5, 7, 6],
@@ -793,11 +799,12 @@ class ScReceiveFromSverchok(Node, ScInputNode):
         [230, 226, 227, 231],
         [206, 202, 203, 207],
         [190, 149, 151, 153, 155, 157, 254, 242, 238, 235, 231, 227, 223, 219, 215, 211, 207, 203, 199, 193, 191]
-    ]]''')
-    prop_verts_mask: StringProperty(default=repr([[True]*256]))
-    prop_edges_mask: StringProperty(default=repr([[True]*386]))
-    prop_faces_mask: StringProperty(default=repr([[True]*136]))
-    
+    ]]"""
+    )
+    prop_verts_mask: StringProperty(default=repr([[True] * 256]))
+    prop_edges_mask: StringProperty(default=repr([[True] * 386]))
+    prop_faces_mask: StringProperty(default=repr([[True] * 136]))
+
     def functionality(self):
         verts = eval(self.prop_verts)
         edges = eval(self.prop_edges)
@@ -807,22 +814,22 @@ class ScReceiveFromSverchok(Node, ScInputNode):
         faces_mask = eval(self.prop_faces_mask)
         l = len(verts)
         objects = []
-        
+
         for i in range(0, l):
-            bpy.ops.object.add(type = "MESH", align = "CURSOR")
+            bpy.ops.object.add(type="MESH", align="CURSOR")
             o = bpy.context.active_object
             o.data.from_pydata(verts[i], edges[i], faces[i])
-            for j in range (0, len(verts_mask[i])):
+            for j in range(0, len(verts_mask[i])):
                 o.data.vertices[j].select = verts_mask[i][j]
-            for j in range (0, len(edges_mask[i])):
+            for j in range(0, len(edges_mask[i])):
                 o.data.edges[j].select = edges_mask[i][j]
-            for j in range (0, len(faces_mask[i])):
+            for j in range(0, len(faces_mask[i])):
                 o.data.polygons[j].select = faces_mask[i][j]
             objects.append(o)
-        
-        if (l > 0):
+
+        if l > 0:
             focus_on_object(objects[0])
-            if (l > 1):
+            if l > 1:
                 for o in objects:
                     o.select_set(True)
                 bpy.ops.object.join()

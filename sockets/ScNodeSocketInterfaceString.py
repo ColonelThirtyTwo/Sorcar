@@ -4,6 +4,7 @@ from bpy.props import StringProperty
 from bpy.types import NodeSocketInterface
 from ._base.interface_base import ScNodeSocketInterface
 
+
 class ScNodeSocketInterfaceString(NodeSocketInterface, ScNodeSocketInterface):
     bl_idname = "ScNodeSocketInterfaceString"
     bl_label = "String"

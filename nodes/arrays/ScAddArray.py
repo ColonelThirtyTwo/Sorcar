@@ -4,6 +4,7 @@ import math
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScAddArray(Node, ScNode):
     bl_idname = "ScAddArray"
     bl_label = "Add Array"

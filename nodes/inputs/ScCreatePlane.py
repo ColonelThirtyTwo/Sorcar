@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_input import ScInputNode
 
+
 class ScCreatePlane(Node, ScInputNode):
     bl_idname = "ScCreatePlane"
     bl_label = "Create Plane"
@@ -16,15 +17,12 @@ class ScCreatePlane(Node, ScInputNode):
         super().init(context)
         self.inputs.new("ScNodeSocketBool", "Generate UVs").init("in_uv")
         self.inputs.new("ScNodeSocketNumber", "Size").init("in_size", True)
-    
+
     def error_condition(self):
-        return (
-            super().error_condition()
-            or self.inputs["Size"].default_value <= 0
-        )
-    
+        return super().error_condition() or self.inputs["Size"].default_value <= 0
+
     def functionality(self):
         bpy.ops.mesh.primitive_plane_add(
-            size = self.inputs["Size"].default_value,
-            calc_uvs = self.inputs["Generate UVs"].default_value
+            size=self.inputs["Size"].default_value,
+            calc_uvs=self.inputs["Generate UVs"].default_value,
         )

@@ -5,6 +5,7 @@ from bpy.types import NodeSocket
 from ._base.socket_base import ScNodeSocket
 from ..nodes._base.node_base import ScNode
 
+
 class ScNodeSocketUniversal(NodeSocket, ScNodeSocket):
     bl_idname = "ScNodeSocketUniversal"
     bl_label = "Universal"

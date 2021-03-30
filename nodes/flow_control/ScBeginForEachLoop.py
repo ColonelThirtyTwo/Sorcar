@@ -4,6 +4,7 @@ from bpy.props import BoolProperty, IntProperty, StringProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScBeginForEachLoop(Node, ScNode):
     bl_idname = "ScBeginForEachLoop"
     bl_label = "Begin For-Each Loop"
@@ -19,9 +20,9 @@ class ScBeginForEachLoop(Node, ScNode):
         self.outputs.new("ScNodeSocketUniversal", "Out")
         self.outputs.new("ScNodeSocketUniversal", "Element")
         self.outputs.new("ScNodeSocketNumber", "Index")
-    
+
     def execute(self, forced=False):
-        if (self.prop_locked):
+        if self.prop_locked:
             self.outputs["Element"].default_value = self.out_element
             self.outputs["Index"].default_value = self.out_index
             self.set_color()
@@ -30,7 +31,7 @@ class ScBeginForEachLoop(Node, ScNode):
             self.prop_locked = True
             self.out_index = 0
             return super().execute(forced)
-    
+
     def post_execute(self):
         out = {}
         out["Out"] = self.inputs["In"].default_value

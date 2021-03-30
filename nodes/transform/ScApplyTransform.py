@@ -5,6 +5,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from .._base.node_operator import ScObjectOperatorNode
 
+
 class ScApplyTransform(Node, ScObjectOperatorNode):
     bl_idname = "ScApplyTransform"
     bl_label = "Apply Transform"
@@ -18,10 +19,10 @@ class ScApplyTransform(Node, ScObjectOperatorNode):
         self.inputs.new("ScNodeSocketBool", "Location").init("in_location", True)
         self.inputs.new("ScNodeSocketBool", "Rotation").init("in_rotation", True)
         self.inputs.new("ScNodeSocketBool", "Scale").init("in_scale", True)
-    
+
     def functionality(self):
         bpy.ops.object.transform_apply(
-            location = self.inputs["Location"].default_value,
-            rotation = self.inputs["Rotation"].default_value,
-            scale = self.inputs["Scale"].default_value
+            location=self.inputs["Location"].default_value,
+            rotation=self.inputs["Rotation"].default_value,
+            scale=self.inputs["Scale"].default_value,
         )

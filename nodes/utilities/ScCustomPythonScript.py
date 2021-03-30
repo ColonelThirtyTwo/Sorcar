@@ -6,6 +6,7 @@ from bpy.types import Node
 from .._base.node_base import ScNode
 from ...helper import print_log
 
+
 class ScCustomPythonScript(Node, ScNode):
     bl_idname = "ScCustomPythonScript"
     bl_label = "Custom Python Script"
@@ -19,15 +20,13 @@ class ScCustomPythonScript(Node, ScNode):
         self.inputs.new("ScNodeSocketString", "Script").init("in_script", True)
         self.inputs.new("ScNodeSocketNumber", "Repeat").init("in_iteration")
         self.outputs.new("ScNodeSocketUniversal", "Out")
-    
+
     def error_condition(self):
-        return (
-            int(self.inputs["Repeat"].default_value) < 1
-        )
-    
+        return int(self.inputs["Repeat"].default_value) < 1
+
     def pre_execute(self):
         print_log(self.name, None, None, self.inputs["Script"].default_value)
-    
+
     def functionality(self):
         _C = bpy.context
         _D = bpy.data

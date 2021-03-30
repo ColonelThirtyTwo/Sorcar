@@ -3,8 +3,10 @@ import bpy
 from bpy.types import Operator
 from ..helper import sc_poll_op
 
+
 class ScClearPreview(Operator):
     """Clear the preview node"""
+
     bl_idname = "sorcar.clear_preview"
     bl_label = "Clear Preview"
 

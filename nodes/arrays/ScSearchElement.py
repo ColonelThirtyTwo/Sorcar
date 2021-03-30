@@ -5,6 +5,7 @@ from bpy.props import BoolProperty, IntProperty
 from bpy.types import Node
 from .._base.node_base import ScNode
 
+
 class ScSearchElement(Node, ScNode):
     bl_idname = "ScSearchElement"
     bl_label = "Search Element"
@@ -25,10 +26,16 @@ class ScSearchElement(Node, ScNode):
     def post_execute(self):
         out = {}
         try:
-            if (self.inputs["Use Range"].default_value):
-                index = eval(self.inputs["Array"].default_value).index(self.inputs["Element"].default_value, int(self.inputs["Start Index"].default_value), int(self.inputs["End Index"].default_value))
+            if self.inputs["Use Range"].default_value:
+                index = eval(self.inputs["Array"].default_value).index(
+                    self.inputs["Element"].default_value,
+                    int(self.inputs["Start Index"].default_value),
+                    int(self.inputs["End Index"].default_value),
+                )
             else:
-                index = eval(self.inputs["Array"].default_value).index(self.inputs["Element"].default_value)
+                index = eval(self.inputs["Array"].default_value).index(
+                    self.inputs["Element"].default_value
+                )
         except:
             index = -1
         out["Index"] = index
